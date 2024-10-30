@@ -13,9 +13,9 @@ public class ButtonForEvents : MonoBehaviour
     }
 
     // Update is called once per frame
-    void OnCollisionStay(Collision col)
+    void OnTriggerStay(Collider col)
     {
-        if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Pickup"))
+        if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Pickup") || col.gameObject.CompareTag("Robot"))
         {
             if (eventType == 0)
             {
@@ -25,9 +25,9 @@ public class ButtonForEvents : MonoBehaviour
         }
     }
 
-    void OnCollisionExit(Collision col)
+    void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Pickup"))
+        if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Pickup") || col.gameObject.CompareTag("Robot"))
         {
             if (eventType == 0)
             {

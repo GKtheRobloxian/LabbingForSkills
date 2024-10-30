@@ -18,6 +18,7 @@ public class PickyUppy : MonoBehaviour
         if (pickedUp)
         {
             transform.position = objPicker.transform.position + objPicker.transform.forward;
+            transform.Rotate(Vector3.up * 90 * Time.deltaTime);
         }
     }
 
@@ -33,5 +34,21 @@ public class PickyUppy : MonoBehaviour
         objPicker = null;
         pickedUp = false;
         GetComponent<BoxCollider>().isTrigger = false;
+    }
+
+    void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.CompareTag("Platform"))
+        {
+            transform.parent = c.gameObject.transform;
+        }
+    }
+
+    void OnCollisionExit(Collision c)
+    {
+        if (c.gameObject.CompareTag("Platform"))
+        {
+            transform.parent = null;
+        }
     }
 }

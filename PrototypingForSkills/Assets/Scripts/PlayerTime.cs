@@ -6,6 +6,9 @@ public class PlayerTime : MonoBehaviour
 {
     Rigidbody rb;
     public float maxSpeed = 5;
+    float currentSpeed = 5;
+    public float jumpForce = 10;
+    float jumpForceCurr = 10;
     public float vertMove;
     public float horzMove;
     public float rotationSpeed;
@@ -13,11 +16,15 @@ public class PlayerTime : MonoBehaviour
     public GameObject currentPick;
     public float pickupRad;
     public bool picking;
+    public bool currentlyFixing = false;
+    public GameObject robotCurrent = null;
     // Start is called before the first frame update
     void Start()
     {
         currentPick = null;
         rb = GetComponent<Rigidbody>();
+        currentSpeed = maxSpeed;
+        jumpForceCurr = jumpForce;
     }
 
     // Update is called once per frame
@@ -26,19 +33,19 @@ public class PlayerTime : MonoBehaviour
         vertMove = Input.GetAxisRaw("Vertical");
         horzMove = Input.GetAxisRaw("Horizontal");
         rb.velocity = Vector3.zero + Vector3.up * rb.velocity.y;
-        rb.AddRelativeForce(Vector3.forward * vertMove * maxSpeed, ForceMode.VelocityChange);
+        rb.AddRelativeForce(Vector3.forward * vertMove * currentSpeed, ForceMode.VelocityChange);
 
         transform.Rotate(horzMove * rotationSpeed * Time.deltaTime * Vector3.up);
 
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
-            rb.AddRelativeForce(Vector3.up * 10, ForceMode.Impulse);
+            rb.AddRelativeForce(Vector3.up * jumpForceCurr, ForceMode.Impulse);
             grounded = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && grounded)
+        if (Input.GetKeyDown(KeyCode.E) && !currentlyFixing)
         {
-            if (!picking)
+            if (!picking && grounded)
             {
                 GameObject[] pickups = GameObject.FindGameObjectsWithTag("Pickup");
                 foreach (GameObject p in pickups)
@@ -51,10 +58,40 @@ public class PlayerTime : MonoBehaviour
                 currentPick.GetComponent<PickyUppy>().PickedUp(gameObject);
                 picking = true;
             }
-            else
+            else if (picking)
             {
                 currentPick.GetComponent<PickyUppy>().Dropped(gameObject);
                 picking = false;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F) && !picking)
+        {
+            if (!currentlyFixing)
+            {
+                GameObject[] robots = GameObject.FindGameObjectsWithTag("Robot");
+                foreach (GameObject r in robots)
+                {
+                    if ((r.transform.position - transform.position).magnitude < pickupRad)
+                    {
+                        robotCurrent = r;
+                        if (!robotCurrent.GetComponent<RobotScript>().operative)
+                        {
+                            currentSpeed = 0;
+                            jumpForceCurr = 0;
+                            r.GetComponent<RobotScript>().gettingFixed = true;
+                            currentlyFixing = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                currentSpeed = maxSpeed;
+                jumpForceCurr = jumpForce;
+                robotCurrent = null;
+                currentlyFixing = false;
             }
         }
     }
