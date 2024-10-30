@@ -86,13 +86,13 @@ public class PlayerTime : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                currentSpeed = maxSpeed;
-                jumpForceCurr = jumpForce;
-                robotCurrent = null;
-                currentlyFixing = false;
-            }
+        }
+        if (Input.GetKeyUp(KeyCode.F) && !picking && currentlyFixing)
+        {   
+            currentSpeed = maxSpeed;
+            jumpForceCurr = jumpForce;
+            robotCurrent = null;
+            currentlyFixing = false;
         }
     }
 

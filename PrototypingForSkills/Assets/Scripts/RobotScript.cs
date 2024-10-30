@@ -80,7 +80,7 @@ public class RobotScript : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyUp(KeyCode.F))
             {
                 currentPartRunning = 0;
                 ReadyToGo();
@@ -117,6 +117,10 @@ public class RobotScript : MonoBehaviour
             if (char.ToString(currentSequence[currentPartRunning]) == "p")
             {
                 StartCoroutine(PickUp());
+            }
+            if (char.ToString(currentSequence[currentPartRunning]) == "r")
+            {
+                StartCoroutine(Return());
             }
             currentPartRunning++;
         }
@@ -166,7 +170,7 @@ public class RobotScript : MonoBehaviour
         {
             objectToGoTo.GetComponent<PickyUppy>().PickedUp(gameObject);
         }
-        CodeRun();
+        StartCoroutine(CodeRun());
     }
 
     void Drop()
@@ -174,9 +178,11 @@ public class RobotScript : MonoBehaviour
 
     }
 
-    void Return()
+    IEnumerator Return()
     {
-
+        yield return new WaitForSeconds(0.75f);
+        objectToGoTo = GameObject.FindWithTag("Player");
+        StartCoroutine(CodeRun());
     }
 
     void OnCollisionEnter(Collision c)
