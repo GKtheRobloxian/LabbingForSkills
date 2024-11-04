@@ -29,51 +29,51 @@ public class RobotScript : MonoBehaviour
     {
         if (gettingFixed)
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 foreach (char c in availableSequence)
                 {
-                    if (c.ToString() == "l")
+                    if (c.ToString() == "1")
                     {
                         currentSequence.Add(c);
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.G))
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 foreach (char c in availableSequence)
                 {
-                    if (c.ToString() == "g")
+                    if (c.ToString() == "3")
                     {
                         currentSequence.Add(c);
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 foreach (char c in availableSequence)
                 {
-                    if (c.ToString() == "p")
+                    if (c.ToString() == "4")
                     {
                         currentSequence.Add(c);
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Alpha5))
             {
                 foreach (char c in availableSequence)
                 {
-                    if (c.ToString() == "q")
+                    if (c.ToString() == "5")
                     {
                         currentSequence.Add(c);
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 foreach (char c in availableSequence)
                 {
-                    if (c.ToString() == "r")
+                    if (c.ToString() == "2")
                     {
                         currentSequence.Add(c);
                     }
@@ -105,20 +105,20 @@ public class RobotScript : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if (currentPartRunning < currentSequence.Count)
         {
-            if (char.ToString(currentSequence[currentPartRunning]) == "l")
+            if (char.ToString(currentSequence[currentPartRunning]) == "1")
             {
                 StartCoroutine(Locate());
             }
-            if (char.ToString(currentSequence[currentPartRunning]) == "g")
+            if (char.ToString(currentSequence[currentPartRunning]) == "3")
             {
                 onTheMove = true;
                 StartCoroutine(GoToObject());
             }
-            if (char.ToString(currentSequence[currentPartRunning]) == "p")
+            if (char.ToString(currentSequence[currentPartRunning]) == "4")
             {
                 StartCoroutine(PickUp());
             }
-            if (char.ToString(currentSequence[currentPartRunning]) == "r")
+            if (char.ToString(currentSequence[currentPartRunning]) == "2")
             {
                 StartCoroutine(Return());
             }
